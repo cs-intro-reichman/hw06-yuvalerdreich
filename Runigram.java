@@ -39,7 +39,7 @@ public class Runigram {
 		in.readString();
 		int numCols = in.readInt();
 		int numRows = in.readInt();
-		in.readInt();
+		in.readString();
 		// Creates the image array
 		Color[][] image = new Color[numRows][numCols];
 		// Reads the RGB values from the file, into the image array. 
@@ -79,8 +79,8 @@ public class Runigram {
 			for (int j = 0; j < image[0].length; j++){
 				print(image[i][j]);
 			}
+			System.out.println();
 		}
-		System.out.println();
 	}
 	
 	/**
@@ -90,7 +90,7 @@ public class Runigram {
 		Color[][] horizontalImage = new Color[image.length][image[0].length];
 
 		for (int i = 0; i < image.length; i++) {
-			for (int j = 0; j < image[0].length; j++) {
+			for (int j = 0; j < image[i].length; j++) {
 				horizontalImage[i][j] = image[i][image[0].length - 1 - j];
 				
 			}
@@ -105,7 +105,7 @@ public class Runigram {
 		Color[][] VerticalImage = new Color[image.length][image[0].length];
 
 		for (int i = 0; i < image.length; i++) {
-			for (int j = 0; j < image[0].length; j++) {
+			for (int j = 0; j < image[i].length; j++) {
 				VerticalImage[i][j] = image[image.length - 1 - i][j];
 				
 			}
@@ -133,7 +133,7 @@ public class Runigram {
 		Color[][] GrayImage = new Color[image.length][image[0].length];
 
 		for (int i = 0; i < image.length; i++) {
-			for (int j = 0; j < image[i].length; j++) {
+			for (int j = 0; j < image[0].length; j++) {
 				GrayImage[i][j] = luminance(image[i][j]);
 			}
 		}
@@ -149,8 +149,8 @@ public class Runigram {
 		int OriginalHeight = image.length;
 		Color[][] resizeImage = new Color[height][width];
 
-		for (int i = 1; i < image.length; i++) {
-			for (int j = 1; j < image[0].length; j++) {
+		for (int i = 0; i < height; i++) {
+			for (int j = 0; j < width; j++) {
 				resizeImage[i][j] = image[i * (OriginalHeight / height)][j * (OriginalWidth / width)];
 			}
 		}
@@ -179,10 +179,10 @@ public class Runigram {
 	 * The two images must have the same dimensions.
 	 */
 	public static Color[][] blend(Color[][] image1, Color[][] image2, double alpha) {
-		Color[][] NewImage = new Color[image1.length][image1[0].length];
+		Color[][] NewImage = new Color[image1.length][image1[1].length];
 
 		for (int i = 0; i < image1.length; i++) {
-			for (int j = 0; j < image1[0].length; j++) {
+			for (int j = 0; j < image1[1].length; j++) {
 				NewImage[i][j] = blend(image1[i][j], image2[i][j], alpha);
 			}
 		}

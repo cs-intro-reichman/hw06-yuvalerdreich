@@ -151,7 +151,10 @@ public class Runigram {
 
 		for (int i = 0; i < height; i++) {
 			for (int j = 0; j < width; j++) {
-				resizeImage[i][j] = image[i * (OriginalHeight / height)][j * (OriginalWidth / width)];
+				int originalX = (int) ((double) i * OriginalHeight / height);
+				int originalY = (int) ((double) j * OriginalWidth / width);
+                
+				resizeImage[i][j] = image[originalX][originalY];
 			}
 		}
 		return resizeImage;

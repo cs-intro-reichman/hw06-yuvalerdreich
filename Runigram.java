@@ -23,6 +23,11 @@ public class Runigram {
 		print(imageOut);
 		
 		//// Write here whatever code you need in order to test your work.
+		print(flippedHorizontally(tinypic));
+		System.out.println();
+		print(grayScaled(tinypic));
+		System.out.println();
+		print(scaled(tinypic, 3, 4));
 		//// You can reuse / overide the contents of the imageOut array.
 	}
 
@@ -113,8 +118,11 @@ public class Runigram {
 	// lum = 0.299 * r + 0.587 * g + 0.114 * b, and returns a Color object consisting
 	// the three values r = lum, g = lum, b = lum.
 	public static Color luminance(Color pixel) {
+		double red = pixel.getRed();
+		double green = pixel.getGreen();
+		double blue = pixel.getBlue();
 
-		int luminance = (int) ((0.299 * pixel.getRed()) + (0.587 * pixel.getGreen()) + (0.114 * pixel.getBlue()));
+		int luminance = (int) ((0.299 * red) + (0.587 * green) + (0.114 * blue));
 		return new Color(luminance, luminance, luminance);
 	}
 	
@@ -125,7 +133,7 @@ public class Runigram {
 		Color[][] GrayImage = new Color[image.length][image[0].length];
 
 		for (int i = 0; i < image.length; i++) {
-			for (int j = 0; j < image[0].length; j++) {
+			for (int j = 0; j < image[i].length; j++) {
 				GrayImage[i][j] = luminance(image[i][j]);
 			}
 		}
@@ -171,10 +179,10 @@ public class Runigram {
 	 * The two images must have the same dimensions.
 	 */
 	public static Color[][] blend(Color[][] image1, Color[][] image2, double alpha) {
-		Color[][] NewImage = new Color[image1.length][image1[1].length];
+		Color[][] NewImage = new Color[image1.length][image1[0].length];
 
 		for (int i = 0; i < image1.length; i++) {
-			for (int j = 0; j < image1[i].length; j++) {
+			for (int j = 0; j < image1[0].length; j++) {
 				NewImage[i][j] = blend(image1[i][j], image2[i][j], alpha);
 			}
 		}
@@ -188,7 +196,19 @@ public class Runigram {
 	 * of the source image.
 	 */
 	public static void morph(Color[][] source, Color[][] target, int n) {
-		//// Replace this comment with your code
+		int row = source.length;
+		int col = source[0].length;
+		Color[][] morImage = new Color[row][col];
+
+		if (target.length != row || target[0].length != col) {
+			target = scaled(target, row, col);
+			
+		}
+		for (int i = 0; i < n; i++) {
+			morImage = blend(source, target, ((double) (n - i)/n));
+			display(morImage);
+			StdDraw.pause(500);
+		}
 	}
 	
 	/** Creates a canvas for the given image. */
